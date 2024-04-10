@@ -238,6 +238,6 @@ def show_predict_page():
 
         lrprediction = lrmodel.predict([feature_values])
         svmprediction = svmmodel.predict([feature_values])
-        st.markdown(f"Logistic regression predicts that you will :yellow[{lrprediction}]")
+        st.markdown(f"Logistic regression predicts that you will :orange[{lrprediction}]")
         st.markdown(f"SVM predicts that you will :blue[{svmprediction}]")
 
