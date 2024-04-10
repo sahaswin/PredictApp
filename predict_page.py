@@ -15,7 +15,7 @@ model = load_model()
 def show_predict_page():
     st.title("Mobile Network Churn Predictor")
 
-    st.write("""### We need some information to predict the salary""")
+    st.write("""### We need some information to predict churn""")
 
     payM = (
         "Bank transfer",
@@ -222,7 +222,7 @@ def show_predict_page():
 
         return feature_values
 
-    ok = st.button("Calculate Salary")
+    ok = st.button("Predict churn")
     if ok:
         feature_values = generate_feature_values(tenure, monthlyc, totc, PaymentMethod, TechSupport, InternetService,
                                                  Partner, Contract, OnlineBackup, DeviceProtection, OnlineSecurity,
