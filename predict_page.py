@@ -149,37 +149,19 @@ def show_predict_page():
 
         feature_values = [tenure, monthlyc, totc]
 
-        if PaymentMethod == 'Bank transfer':
-            feature_values.extend([True, False, False, False])
-        elif PaymentMethod == 'Credit card (automatic)':
-            feature_values.extend([False, True, False, False])
-        elif PaymentMethod == 'Electronic check':
-            feature_values.extend([False, False, True, False])
+        if PaperlessBilling == 'No':
+            feature_values.extend([True, False])
         else:
-            feature_values.extend([False, False, False, True])
-
-        if TechSupport == 'No':
-            feature_values.extend([True, False, False])
-        elif TechSupport == 'No internet service':
-            feature_values.extend([False, True, False])
-        else:
-            feature_values.extend([False, False, True])
-
-        if InternetService == 'DSL':
-            feature_values.extend([True, False, False])
-        elif InternetService == 'Fiber optic':
-            feature_values.extend([False, True, False])
-        else:
-            feature_values.extend([False, False, True])
+            feature_values.extend([False, True])
 
         if Partner == 'No':
             feature_values.extend([True, False])
         else:
             feature_values.extend([False, True])
 
-        if Contract == 'Month-to-month':
+        if InternetService == 'DSL':
             feature_values.extend([True, False, False])
-        elif Contract == 'One year':
+        elif InternetService == 'Fiber optic':
             feature_values.extend([False, True, False])
         else:
             feature_values.extend([False, False, True])
@@ -190,6 +172,16 @@ def show_predict_page():
             feature_values.extend([False, True, False])
         else:
             feature_values.extend([False, False, True])
+
+        if Dependents == 'No':
+            feature_values.extend([True, False])
+        else:
+            feature_values.extend([False, True])
+
+        if SeniorCitizen == 'No':
+            feature_values.extend([True, False])
+        else:
+            feature_values.extend([False, True])
 
         if DeviceProtection == 'No':
             feature_values.extend([True, False, False])
@@ -205,6 +197,20 @@ def show_predict_page():
         else:
             feature_values.extend([False, False, True])
 
+        if TechSupport == 'No':
+            feature_values.extend([True, False, False])
+        elif TechSupport == 'No internet service':
+            feature_values.extend([False, True, False])
+        else:
+            feature_values.extend([False, False, True])
+
+        if Contract == 'Month-to-month':
+            feature_values.extend([True, False, False])
+        elif Contract == 'One year':
+            feature_values.extend([False, True, False])
+        else:
+            feature_values.extend([False, False, True])
+
         if StreamingTV == 'No':
             feature_values.extend([True, False, False])
         elif StreamingTV == 'No internet service':
@@ -212,20 +218,14 @@ def show_predict_page():
         else:
             feature_values.extend([False, False, True])
 
-        if SeniorCitizen == 'No':
-            feature_values.extend([True, False])
+        if PaymentMethod == 'Bank transfer':
+            feature_values.extend([True, False, False, False])
+        elif PaymentMethod == 'Credit card (automatic)':
+            feature_values.extend([False, True, False, False])
+        elif PaymentMethod == 'Electronic check':
+            feature_values.extend([False, False, True, False])
         else:
-            feature_values.extend([False, True])
-
-        if PaperlessBilling == 'No':
-            feature_values.extend([True, False])
-        else:
-            feature_values.extend([False, True])
-
-        if Dependents == 'No':
-            feature_values.extend([True, False])
-        else:
-            feature_values.extend([False, True])
+            feature_values.extend([False, False, False, True])
 
         return feature_values
 
@@ -238,6 +238,5 @@ def show_predict_page():
 
         lrprediction = lrmodel.predict([feature_values])
         svmprediction = svmmodel.predict([feature_values])
-        st.markdown(f"Logistic regression predicts that you will :orange[{lrprediction}]")
+        st.markdown(f"Logistic regression predicts that you will :yellow[{lrprediction}]")
         st.markdown(f"SVM predicts that you will :blue[{svmprediction}]")
-
