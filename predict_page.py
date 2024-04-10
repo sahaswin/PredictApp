@@ -86,24 +86,54 @@ def show_predict_page():
         "Yes"
     )
 
-    tenure = st.slider("tenure in months", 0, 50, 3)
-    monthlyc = st.slider("monthly charges", 0, 50, 3)
-    totc = monthlyc * tenure
-    PaymentMethod = st.selectbox("Payment Method", payM)
-    Contract = st.selectbox("Contract", Contr)
-    InternetService = st.selectbox("Internet Service", IntS)
-    SeniorCitizen = st.selectbox("Senior Citizen", SenC)
-    PaperlessBilling = st.selectbox("Paperless Billing", PprB)
-    Partner = st.selectbox("Partner", Partner)
-    Dependents = st.selectbox("Dependents", Depe)
+    Pcontainer = st.container(border=True)
+    Pcontainer.header("Payment information")
+    col1, col2 = Pcontainer.columns(2)
+    with col1:
+        monthlyc = st.slider("monthly charges", 0.00, 120.00, 35.00)
+    with col2:
+        tenure = st.slider("tenure in months", 0, 72, 3)
+        totc = monthlyc * tenure
+    Pcontainer.markdown(f"Your total charges for your tenure is :green[${totc:.2f}]")
+    col1, col2, col3 = Pcontainer.columns(3)
+    with col1:
+        Contract = st.selectbox("Contract", Contr)
+    with col2:
+        PaymentMethod = st.selectbox("Payment Method", payM)
+    with col3:
+        PaperlessBilling = st.selectbox("Paperless Billing", PprB)
 
+    Ccontainer = st.container(border=True)
+    Ccontainer.header("Customer information")
+    col1, col2, col3 = Ccontainer.columns(3)
+    with col1:
+        SeniorCitizen = st.selectbox("Senior Citizen", SenC)
+    with col2:
+        Partner = st.selectbox("Partner", Partner)
+    with col3:
+        Dependents = st.selectbox("Dependents", Depe)
+
+    Icontainer = st.container(border=True)
+    Icontainer.header("Internet services information")
+    InternetService = Icontainer.selectbox("Internet Service", IntS)
+    Icontainer.markdown("*If you don't have internet service, Services below will not be available*")
     disabled = InternetService == "No"  # Disable options if "No" is selected
 
-    TechSupport = st.selectbox("Tech Support", TechS, disabled=disabled)
-    OnlineBackup = st.selectbox("Online Backup", OnlBackup, disabled=disabled)
-    DeviceProtection = st.selectbox("Device Protection", DevP, disabled=disabled)
-    OnlineSecurity = st.selectbox("Online Security", OnlSec, disabled=disabled)
-    StreamingTV = st.selectbox("Streaming TV", StrTV, disabled=disabled)
+    col1, col2 = Icontainer.columns(2)
+
+    with col1:
+        TechSupport = st.selectbox("Tech Support", TechS, disabled=disabled)
+    with col2:
+        DeviceProtection = st.selectbox("Device Protection", DevP, disabled=disabled)
+
+    col1, col2, col3 = Icontainer.columns(3)
+
+    with col1:
+        OnlineSecurity = st.selectbox("Online Security", OnlSec, disabled=disabled)
+    with col2:
+        OnlineBackup = st.selectbox("Online Backup", OnlBackup, disabled=disabled)
+    with col3:
+        StreamingTV = st.selectbox("Streaming TV", StrTV, disabled=disabled)
 
     def generate_feature_values(tenure, monthlyc, totc, PaymentMethod, TechSupport, InternetService, Partner,
                                 Contract,
