@@ -3,13 +3,20 @@ import pickle
 import numpy as np
 
 
-def load_model():
+def load_lrmodel():
     with open('/mount/src/predictapp/LogisticRegression(L1).pickle', 'rb') as file:
         model = pickle.load(file)
     return model
 
 
-model = load_model()
+def load_svmmodel():
+    with open('/mount/src/predictapp/SVC.pickle', 'rb') as file:
+        model = pickle.load(file)
+    return model
+
+
+lrmodel = load_lrmodel()
+svmmodel = load_svmmodel()
 
 
 def show_predict_page():
@@ -229,6 +236,8 @@ def show_predict_page():
                                                  StreamingTV, SeniorCitizen, PaperlessBilling, Dependents)
         print(feature_values)
 
-        prediction = model.predict([feature_values])
-        print(prediction)
-        st.subheader(prediction)
+        lrprediction = lrmodel.predict([feature_values])
+        svmprediction = svmmodel.predict([feature_values])
+        st.markdown(f"Logistic regression predicts that you will :yellow[{lrprediction}]")
+        st.markdown(f"SVM predicts that you will :blue[{svmprediction}]")
+
