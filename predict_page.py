@@ -4,7 +4,7 @@ import numpy as np
 
 
 def load_model():
-    with open('LogisticRegression(L1).pickle', 'rb') as file:
+    with open('/workspaces/PredictApp/LogisticRegression(L1).pickle', 'rb') as file:
         model = pickle.load(file)
     return model
 
