@@ -7,25 +7,25 @@ import numpy as np
 warnings.filterwarnings("ignore")
 
 def load_lrmodel():
-    with open('LogisticRegression(L1).pickle', 'rb') as file:
+    with open('/mount/src/predictapp/LogisticRegression(L1).pickle', 'rb') as file:
         model = pickle.load(file)
     return model
 
 
 def load_svmmodel():
-    with open('SVC.pickle', 'rb') as file:
+    with open('/mount/src/predictapp/SVC.pickle', 'rb') as file:
         model = pickle.load(file)
     return model
 
 
 def load_adab():
-    with open('AdaBoostClassifier.pickle', 'rb') as file:
+    with open('/mount/src/predictapp/AdaBoostClassifier.pickle', 'rb') as file:
         model = pickle.load(file)
     return model
 
 
 def load_scaler():
-    with open('scaler.pickle', 'rb') as file:
+    with open('/mount/src/predictapp/scaler.pickle', 'rb') as file:
         scaler = pickle.load(file)
     return scaler
 
