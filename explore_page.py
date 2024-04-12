@@ -9,7 +9,7 @@ st.title('Mobile Network Churn EDA')
 
 # Load the dataset
 def load_data():
-    data = pd.read_csv('feature_values.csv')
+    data = pd.read_csv('/mount/src/predictapp/feature_values.csv')
     return data
 
 
