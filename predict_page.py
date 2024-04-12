@@ -1,3 +1,4 @@
+import csv
 import warnings
 import streamlit as st
 import pickle
@@ -6,25 +7,25 @@ import numpy as np
 warnings.filterwarnings("ignore")
 
 def load_lrmodel():
-    with open('/mount/src/predictapp/LogisticRegression(L1).pickle', 'rb') as file:
+    with open('LogisticRegression(L1).pickle', 'rb') as file:
         model = pickle.load(file)
     return model
 
 
 def load_svmmodel():
-    with open('/mount/src/predictapp/SVC.pickle', 'rb') as file:
+    with open('SVC.pickle', 'rb') as file:
         model = pickle.load(file)
     return model
 
 
 def load_adab():
-    with open('/mount/src/predictapp/AdaBoostClassifier.pickle', 'rb') as file:
+    with open('AdaBoostClassifier.pickle', 'rb') as file:
         model = pickle.load(file)
     return model
 
 
 def load_scaler():
-    with open('/mount/src/predictapp/scaler.pickle', 'rb') as file:
+    with open('scaler.pickle', 'rb') as file:
         scaler = pickle.load(file)
     return scaler
 
@@ -146,6 +147,7 @@ def show_predict_page():
 
     with col1:
         TechSupport = st.selectbox("Tech Support", TechS, disabled=disabled)
+
     with col2:
         DeviceProtection = st.selectbox("Device Protection", DevP, disabled=disabled)
 
@@ -251,6 +253,9 @@ def show_predict_page():
                                                  Partner, Contract, OnlineBackup, DeviceProtection, OnlineSecurity,
                                                  StreamingTV, SeniorCitizen, PaperlessBilling, Dependents)
         print(feature_values)
+        with open('feature_values.csv', mode='a', newline='') as file:
+            writer = csv.writer(file)
+            writer.writerow(feature_values)
         feature_array = np.array(feature_values)
         x1, x2, x3 = feature_values[:3]
         scaled_x1 = scaler.transform([[x1, x2, x3]])
