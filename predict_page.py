@@ -253,7 +253,7 @@ def show_predict_page():
                                                  Partner, Contract, OnlineBackup, DeviceProtection, OnlineSecurity,
                                                  StreamingTV, SeniorCitizen, PaperlessBilling, Dependents)
         print(feature_values)
-        with open('feature_values.csv', mode='a', newline='') as file:
+        with open('/mount/src/predictapp/feature_values.csv', mode='a', newline='') as file:
             writer = csv.writer(file)
             writer.writerow(feature_values)
         feature_array = np.array(feature_values)
