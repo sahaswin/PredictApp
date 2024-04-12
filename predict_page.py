@@ -1,7 +1,9 @@
+import warnings
 import streamlit as st
 import pickle
 import numpy as np
 
+warnings.filterwarnings("ignore")
 
 def load_lrmodel():
     with open('/mount/src/predictapp/LogisticRegression(L1).pickle', 'rb') as file:
@@ -15,8 +17,22 @@ def load_svmmodel():
     return model
 
 
+def load_adab():
+    with open('/mount/src/predictapp/AdaBoostClassifier.pickle', 'rb') as file:
+        model = pickle.load(file)
+    return model
+
+
+def load_scaler():
+    with open('/mount/src/predictapp/scaler.pickle', 'rb') as file:
+        scaler = pickle.load(file)
+    return scaler
+
+
 lrmodel = load_lrmodel()
 svmmodel = load_svmmodel()
+adabmodel = load_adab()
+scaler = load_scaler()
 
 
 def show_predict_page():
@@ -235,8 +251,15 @@ def show_predict_page():
                                                  Partner, Contract, OnlineBackup, DeviceProtection, OnlineSecurity,
                                                  StreamingTV, SeniorCitizen, PaperlessBilling, Dependents)
         print(feature_values)
+        feature_array = np.array(feature_values)
+        x1, x2, x3 = feature_values[:3]
+        scaled_x1 = scaler.transform([[x1, x2, x3]])
+        feature_array[:3] = scaled_x1.flatten()
 
-        lrprediction = lrmodel.predict([feature_values])
-        svmprediction = svmmodel.predict([feature_values])
+        lrprediction = lrmodel.predict([feature_array])
+        svmprediction = svmmodel.predict([feature_array])
+        adapred = adabmodel.predict([feature_array])
         st.markdown(f"Logistic regression predicts that you will :orange[{lrprediction}]")
         st.markdown(f"SVM predicts that you will :blue[{svmprediction}]")
+        st.markdown(f"AdaBoost predicts that you will :violet[{adapred}]")
+
