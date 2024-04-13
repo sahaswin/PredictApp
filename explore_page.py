@@ -4,15 +4,19 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 import plotly.express as px
 import plotly.graph_objs as go
+from streamlit_gsheets import GSheetsConnection
 
 # Set the title of the web app
 st.title('Mobile Network Churn EDA')
 
 
+@st.cache_data
 def load_data():
     """ Load the dataset from a file """
-    return pd.read_csv('/mount/src/predictapp/feature_values.csv')
+    return pd.read_csv('/mount/src/predictapp/ftdata.csv')
 
+
+data = load_data()
 
 Hcontainer = st.container(border=True)
 Fcontainer = st.container(border=True)
@@ -57,42 +61,15 @@ def generate_heatmap(data, group_x, group_y):
     HMcontainer.pyplot(plt)
 
 
-def interactive_feature_graph(data):
-    Icontainer.title('Interactive Feature Graph')
-
-    # Define specific features to plot
-    features_to_plot = ['tenure', 'MonthlyCharges', 'TotalCharges']
-
-    # Create a Plotly graph
-    fig = go.Figure()
-    for feature in features_to_plot:
-        fig.add_trace(go.Scatter(
-            x=data.index,
-            y=data[feature],
-            mode='lines+markers',
-            name=feature
-        ))
-
-    # Update layout
-    fig.update_layout(
-        height=600,
-        title_text="Interactive Plot of Selected Features",
-        xaxis_title="Index",
-        yaxis_title="Value",
-        hovermode="x"
-    )
-    Icontainer.plotly_chart(fig, use_container_width=True)
-
-
 def show_explore_page():
-    data = load_data()
-    Hcontainer.header('Data Analysis of user Inputs')
-    Hcontainer.markdown('Here you are able to go through the user inputs and an analysis of said data.\n')
+    Hcontainer.header('Data Analysis of Dataset')
+    Hcontainer.markdown('Here you are able to go through the Dataset and an analysis of said data.\n')
 
-    Hcontainer.markdown('Sample of user input data\n')
+    Hcontainer.markdown('Sample of Dataset data\n')
     Hcontainer.write(data.head())
-    Hcontainer.markdown('Summary of numerical data in user inputs\n')
-    Hcontainer.write(data.describe())
+    Hcontainer.markdown('Summary of numerical data in Dataset\n')
+    selected_columns = ['tenure', 'MonthlyCharges', 'TotalCharges']
+    Hcontainer.write(data[selected_columns].describe())
 
     Fcontainer.header('Feature Group Summaries')
     selected_feature_group = Fcontainer.selectbox('Select Feature Group', list(feature_groups.keys()))
@@ -121,12 +98,9 @@ def show_explore_page():
     if HMcontainer.button('Generate Heatmap'):
         generate_heatmap(data, selected_group_x, selected_group_y)
 
-    # Additional app features in sidebar
-    interactive_feature_graph(data)  # Call the interactive graph function
-
     st.sidebar.header('Dataset Quick Look:')
     st.sidebar.write(f'Number of Datapoints: {data.shape[0]}')
-    st.sidebar.write(f'Number of Features: {data.shape[1]}')
+    st.sidebar.write(f'Number of Features: {data.shape[1] - 1}')
 
 
 # Define feature groups globally
