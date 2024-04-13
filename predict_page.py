@@ -260,9 +260,40 @@ def show_predict_page():
         scaled_x1 = scaler.transform([[x1, x2, x3]])
         feature_array[:3] = scaled_x1.flatten()
 
-        lrprediction = lrmodel.predict([feature_array])
-        svmprediction = svmmodel.predict([feature_array])
-        adapred = adabmodel.predict([feature_array])
-        st.markdown(f"Logistic regression predicts that you will :orange[{lrprediction}]")
-        st.markdown(f"SVM predicts that you will :blue[{svmprediction}]")
-        st.markdown(f"AdaBoost predicts that you will :violet[{adapred}]")
+        lrprediction = lrmodel.predict([feature_array])[0]
+        svmprediction = svmmodel.predict([feature_array])[0]
+        adapred = adabmodel.predict([feature_array])[0]
+
+        svm_prob = svmmodel.predict_proba([feature_array])[0]
+        ada_prob = adabmodel.predict_proba([feature_array])[0]
+        svm_confidence = svm_prob[svmprediction]  # Using the class index to access the corresponding probability
+        ada_confidence = ada_prob[adapred]  # Using the class index to access the corresponding probability
+
+        # Handling different outcomes from logistic regression
+        if lrprediction == 1:
+            lr_result = "will"
+        else:
+            lr_result = "will not"
+
+        if svmprediction == 1:
+            sv_result = "will"
+        else:
+            sv_result = "will not"
+
+        if adapred == 1:
+            ada_result = "will"
+        else:
+            ada_result = "will not"
+
+        # Format the probabilities to be more readable
+        svm_confidence_formatted = f"{svm_confidence:.2%}"
+        ada_confidence_formatted = f"{ada_confidence:.2%}"
+
+        print(svm_confidence_formatted)
+        print(ada_confidence_formatted)
+
+        st.markdown(f"Logistic regression predicts that you :orange[{lr_result}] churn.")
+        st.markdown(
+            f"SVM predicts that you :blue[{sv_result}] churn with a probability of :blue[{svm_confidence_formatted}]")
+        st.markdown(
+            f"SVM predicts that you :violet[{ada_result}] churn with a probability of :violet[{ada_confidence_formatted}]")
