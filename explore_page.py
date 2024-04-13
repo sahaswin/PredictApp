@@ -4,7 +4,6 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 import plotly.express as px
 import plotly.graph_objs as go
-from streamlit_gsheets import GSheetsConnection
 
 # Set the title of the web app
 st.title('Mobile Network Churn EDA')
