@@ -296,4 +296,4 @@ def show_predict_page():
         st.markdown(
             f"SVM predicts that you :blue[{sv_result}] churn with a probability of :blue[{svm_confidence_formatted}]")
         st.markdown(
-            f"SVM predicts that you :violet[{ada_result}] churn with a probability of :violet[{ada_confidence_formatted}]")
+            f"AdaBoost predicts that you :violet[{ada_result}] churn with a probability of :violet[{ada_confidence_formatted}]")
